@@ -16,35 +16,36 @@ chrome.storage.sync.get('salary', function(data) {
     		console.log(node);
     		var regexTest = /\$\d+(?:\.\d+)?/gi;
       	var text = node.nodeValue;
+
      		var numberStrings = text.match(regexTest);
-     		var numbers = numberStrings.map(function(numberString) {
-     			return parseFloat(numberString.replace(/./, ''));
+
+     		if(numberStrings !== null) {
+     		console.log(numberStrings);
+     		numberStrings.forEach(function(numberString) {
+     			var numPrice = parseFloat(numberString.replace(/./, ''));
+   
+	     		var hours = convert(numPrice, salary);
+
+	     		//replace text matches entire string 
+
+
+	     		var replacedText = text.replace(numberString, `${round(hours, 2)} hours of your life`); 
+
+	     		console.log("hours", hours);
+	     		console.log("BREAK");
+	     		console.log("replaced text", replacedText);
+	      	//var replacedText = text.replace(/\$\d+(?:\.\d+)?/gi, 'ONE MILLION DOLLARS');
+	     
+
+	      	if (replacedText !== text) {
+	          element.replaceChild(document.createTextNode(replacedText), node);
+	        }
+
      		});
 
 
 
-      	var hours = convert(price, salary);
-      	var replacedText = text.replace(/\$\d+(?:\.\d+)?/gi, 'ONE MILLION DOLLARS');
-      	//one million dollars 
-
-        /*
-
-				store salary from user (in the popup.js file)
-				match $... from any element and do math in line to calculate the cost of hours of life 
-				replace $ with math
-				convert salary to hourly  ==> salary / 2087 (hourSalary)
-				convert hourSalary to time in hours ==> price of item / hourSalary 
-			
-        */ 
-
-
-
-
-
-
-        if (replacedText !== text) {
-            element.replaceChild(document.createTextNode(replacedText), node);
-        }
+  	  }
       }
     }
 	}
@@ -64,7 +65,9 @@ function convert(price, salary) {
 
 }
 
-
+function round(value, decimals) {
+	return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
 
 // const regexTest = /\$\d+(?:\.\d+)?/gi;
 // const newMessage = 'one million dollars';
