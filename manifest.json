@@ -1,7 +1,7 @@
 {
 "manifest_version": 2,
-    "name": "Snake People",
-    "description": "Replacing millenials with Snake People",
+    "name": "Is it Worth It?",
+    "description": "Realtime conversion of Dollar amounts into Hours based upon Salary/Hourly Rate",
     "version": "1.0",
 
     "browser_action": {
